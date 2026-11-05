@@ -1,0 +1,12 @@
+using UnityEngine;
+
+public class Unit : MonoBehaviour
+{
+    public string unitName;
+    public string unitLevel;
+
+    public int damage;
+
+    public int maxHP;
+    public int currentHP;
+}
