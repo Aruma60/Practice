@@ -1,25 +1,16 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody2D))]
-public class PlayerMovement : MonoBehaviour
+public class TopDownPlayerController : MonoBehaviour
 {
-    private float moveSpeed = 5f;
+    public float moveSpeed = 10.0f;
+   
+    [SerializeField] InputActionReference playerMove;
 
-    private Rigidbody2D rb;
-    private Vector2 moveInput;
-
-    private void Awake()
+    // Update is called once per frame
+    void Update()
     {
-        rb = GetComponent<Rigidbody2D>();
-    }
-
-    private void FixedUpdate()
-    {
-        rb.linearVelocity = moveInput * moveSpeed;
-    }
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        moveInput = context.ReadValue<Vector2>();
+        // get horizontal and vertical input
+        transform.Translate(playerMove.action.ReadValue<Vector2>() * moveSpeed * Time.deltaTime);
     }
 }
