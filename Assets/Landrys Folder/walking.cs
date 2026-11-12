@@ -3,6 +3,11 @@ using UnityEngine.InputSystem;
 
 public class TopDownPlayerController : MonoBehaviour
 {
+    void Start()
+    {
+    PickupKey.didBluePickup = false;
+    }
+    
     public float moveSpeed = 10.0f;
    
     [SerializeField] InputActionReference playerMove;
