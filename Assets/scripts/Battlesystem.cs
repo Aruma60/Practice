@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+
 // Edit this for 3 player
 
       public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOSS }
-       
+
 
 public class Battlesystem : MonoBehaviour
 
 {
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
-
 
     public Transform playerBattleStation;
     public Transform enemyBattleStation;
@@ -23,15 +23,19 @@ public class Battlesystem : MonoBehaviour
 
     public TextMeshProUGUI dialogueText;
 
+    [SerializeField] BattleDialogueBox dialogueBox;
+
     public BattleHUD playerHUD;
     public BattleHUD enemyHUD;
 
+
     public BattleState state;
-    
+    int currentAction;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
- 
+
         state = BattleState.START;
         StartCoroutine(SetupBattle());
 
@@ -39,9 +43,9 @@ public class Battlesystem : MonoBehaviour
 
     IEnumerator SetupBattle()
     {
-       GameObject playerGo =  Instantiate(playerPrefab, playerBattleStation);
+        GameObject playerGo = Instantiate(playerPrefab, playerBattleStation);
         playerUnit = playerGo.GetComponent<Unit>();
-        
+
         GameObject enemyGo = Instantiate(enemyPrefab, enemyBattleStation);
         enemyUnit = enemyGo.GetComponent<Unit>();
 
@@ -74,15 +78,21 @@ public class Battlesystem : MonoBehaviour
 
     }
 
-
-    
-    public void OnAttackButton()
+    private void Update()
     {
-        if (state != BattleState.PLAYERTURN)
-            return;
+        if (state == BattleState.PLAYERTURN)
+        {
+            HandleActionSelection(); 
+        }
 
-        StartCoroutine(PlayerAttack());
+    }
 
+   void HandleActionSelection()
+    {
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            ++currentAction;
+        }
 
     }
 
