@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitBase
   name: Practice
   description: This is a test dummy, nothing more, nothing less.
-  battleSprite: {fileID: 0}
+  battleSprite: {fileID: -7522720915820998843, guid: f1ed1d1036967ac48ae1535f09a58440, type: 3}
   maxHp: 120
   attack: 144
   magic: 130
