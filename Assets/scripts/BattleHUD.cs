@@ -7,32 +7,17 @@ using TMPro;
 public class BattleHUD : MonoBehaviour
 {
 
-    public TextMeshProUGUI nameText;
-    public TextMeshProUGUI levelText;
-    public Slider hpSlider;
-    public Slider mpSlider;
+    [SerializeField] TextMeshProUGUI nameText;
+    [SerializeField] TextMeshProUGUI levelText;
+    [SerializeField] HPBar hpBar;
+    [SerializeField] MPBar mpBar;
 
-    public void SetHUD (Unit unit)
+    //DW about mpbar script yet
+
+    public void SetData(Unit unit)
     {
-        nameText.text = unit.unitName;
-        levelText.text =  "Lvl " + unit.unitLevel;
-        hpSlider.maxValue = unit.maxHP;
-        hpSlider.value = unit.currentHP;
-        mpSlider.maxValue = unit.currentMP;
-        mpSlider.value = unit.currentMP;
-
-    }
-
-    public void SetHP(int hp)
-    {  
-        
-        hpSlider.value = hp; 
-    
-    }
-
-    public void SetMP(int mp)
-    {
-        mpSlider.value = mp;
-
+        nameText.text = unit.Base.Name;
+        levelText.text = "Lvl" + unit.Level;
+        hpBar.SetHP((float)unit.HP / unit.MaxHp);
     }
 }

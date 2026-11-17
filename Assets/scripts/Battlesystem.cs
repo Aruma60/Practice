@@ -1,80 +1,75 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 // Edit this for 3 player
 
-      public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOSS }
+public enum BattleState { START, PLAYERTURN, PLAYERMOVE, ENEMYTURN, WON, LOSS, BUSY }
 
 
 public class Battlesystem : MonoBehaviour
 
 {
-    public GameObject playerPrefab;
-    public GameObject enemyPrefab;
-
-    public Transform playerBattleStation;
-    public Transform enemyBattleStation;
-
-    Unit playerUnit;
-    Unit enemyUnit;
-
-    public TextMeshProUGUI dialogueText;
-
+    [SerializeField] BattleUnit playerUnit;
+    [SerializeField] BattleUnit enemyUnit;
+    [SerializeField] BattleHUD playerHud;
+    [SerializeField] BattleHUD enemyHud;
     [SerializeField] BattleDialogueBox dialogueBox;
 
-    public BattleHUD playerHUD;
-    public BattleHUD enemyHUD;
+
 
 
     public BattleState state;
     int currentAction;
+    int currentMove;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
 
-        state = BattleState.START;
+
         StartCoroutine(SetupBattle());
 
     }
 
-    IEnumerator SetupBattle()
+    public IEnumerator SetupBattle()
     {
-        GameObject playerGo = Instantiate(playerPrefab, playerBattleStation);
-        playerUnit = playerGo.GetComponent<Unit>();
+        playerUnit.Setup();
+        enemyUnit.Setup();
+        playerHud.SetData(playerUnit.unit);
+        enemyHud.SetData(enemyUnit.unit);
 
-        GameObject enemyGo = Instantiate(enemyPrefab, enemyBattleStation);
-        enemyUnit = enemyGo.GetComponent<Unit>();
+        dialogueBox.SetMoveNames(enemyUnit.Moves);
 
 
+       // Edit later to accomodate for what I actually want to accomplish from the code.
 
-        dialogueText.text = enemyUnit.unitName + " is ready for battle";
+        // Edit later to accomodate for multiple players and enemies
+        // Get full system done by Saturday so it can be pretty on Tuesday.
+        yield return dialogueBox.TypeDialogue($" {enemyUnit}  is ready for battle!");
+        yield return new WaitForSeconds(1f);
 
-        playerHUD.SetHUD(playerUnit);
-        enemyHUD.SetHUD(enemyUnit);
+        PlayerAction();
+     }
 
-        yield return new WaitForSeconds(2f);
 
+    void PlayerAction()
+    {
         state = BattleState.PLAYERTURN;
-        PlayerTurn();
+        StartCoroutine(dialogueBox.TypeDialogue("What will you do?"));
+        dialogueBox.EnableActionSelector(true);
     }
 
-    IEnumerator PlayerAttack()
+    void PlayerMove()
     {
-        //Damage the enemy
+        state = BattleState.PLAYERMOVE;
+        dialogueBox.EnableActionSelector(false);
+        dialogueBox.EnableDialogueText(false);
+        dialogueBox.EnableMoveSelector(true);
 
-        yield return new WaitForSeconds(1.5f);
-        // Check if Enemy Dead
-        //Change state based on what happens
-
-    }
-
-    void PlayerTurn()
-    {
-        dialogueText.text = "Choose an action:";
 
     }
 
@@ -82,18 +77,71 @@ public class Battlesystem : MonoBehaviour
     {
         if (state == BattleState.PLAYERTURN)
         {
-            HandleActionSelection(); 
+            HandleActionSelection();
+        }
+        else if (state == BattleState.PLAYERMOVE)
+        {
+            HandleMoveSelection();
         }
 
     }
 
-   void HandleActionSelection()
+    void HandleActionSelection()
     {
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            ++currentAction;
+            if (currentAction < 2)
+            {
+                ++currentAction;
+            }
+            else if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                if (currentAction > 0)
+                    --currentAction;
+            }
         }
+
+        dialogueBox.UpdateActionSelection(currentAction);
+
+        if (Input.GetKeyDown(KeyCode.Z))
+            if (currentAction == 0)
+            {
+                //Fight
+            }
+            else if (currentAction == 1)
+            {
+                //Skills
+            }
+            else if (currentAction == 2)
+            {
+                //Run??
+            }
+
 
     }
 
-}
+    void HandleMoveSelection()
+    {
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            if (currentMove < playerUnit.unit.Moves.Count - 1)
+                ++currentMove;
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            if (currentMove > 0)
+                --currentMove;
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            if (currentMove < playerUnit.unit.Moves.Count - 2)
+                currentMove += 2;
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if (currentMove > 1)
+                currentMove -= 2;
+        }
+
+        dialogueBox.UpdateMoveSelection(currentMove);
+    } }
