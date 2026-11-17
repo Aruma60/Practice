@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PickupKey : MonoBehaviour
+public class bluePickup : MonoBehaviour
 {
     public static bool didBluePickup = false;
     void Start()
@@ -12,7 +12,7 @@ public class PickupKey : MonoBehaviour
     {
         if (other.gameObject.tag == "Player" && !didBluePickup)
         {
-            PickupKey.didBluePickup = true;
+            bluePickup.didBluePickup = true;
             Destroy(gameObject);
         }
     }

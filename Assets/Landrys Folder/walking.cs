@@ -5,7 +5,7 @@ public class TopDownPlayerController : MonoBehaviour
 {
     void Start()
     {
-    PickupKey.didBluePickup = false;
+    bluePickup.didBluePickup = false;
     }
     
     public float moveSpeed = 10.0f;
