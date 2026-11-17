@@ -26,7 +26,7 @@ public class Unit : MonoBehaviour
         {
             if (move.Level <= Level)
             {
-                Moves.Add(new Move(move.Base, move.Base.MpCost));
+                Moves.Add(new Move(move.Base, move.Base.Mpcost));
             }
 
             if (Moves.Count >= 4)

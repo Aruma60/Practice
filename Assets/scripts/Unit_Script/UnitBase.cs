@@ -15,6 +15,8 @@ public class UnitBase : ScriptableObject
     [SerializeField] int magic;
     [SerializeField] int maxMp;
     [SerializeField] int speed;
+    [SerializeField] int defense;
+    [SerializeField] int magicDefense;
 
     [SerializeField] List<LearnableMove> learnableMoves;
 
@@ -24,8 +26,11 @@ public class UnitBase : ScriptableObject
     public int MaxHp => maxHp;
     public int Attack => attack;
     public int Magic => magic;
+    public int Defense => defense;
+    public int MagicDefense => magicDefense;
     public int MaxMp => maxMp;
     public int Speed => speed;
+
     public List<LearnableMove> LearnableMoves => learnableMoves;
 
     [System.Serializable]

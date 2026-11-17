@@ -42,7 +42,7 @@ public class Battlesystem : MonoBehaviour
         playerHud.SetData(playerUnit.unit);
         enemyHud.SetData(enemyUnit.unit);
 
-        dialogueBox.SetMoveNames(enemyUnit.Moves);
+        dialogueBox.SetMoveNames(enemyUnit.unit.Moves);
 
 
        // Edit later to accomodate for what I actually want to accomplish from the code.
