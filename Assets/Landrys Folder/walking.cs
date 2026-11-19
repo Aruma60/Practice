@@ -6,6 +6,8 @@ public class TopDownPlayerController : MonoBehaviour
     void Start()
     {
     bluePickup.didBluePickup = false;
+    redPickup.didRedPickup = false;
+    purplePickup.didPurplePickup = false;
     }
     
     public float moveSpeed = 10.0f;
