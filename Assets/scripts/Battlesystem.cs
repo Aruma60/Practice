@@ -48,7 +48,6 @@ public class Battlesystem : MonoBehaviour
        // Edit later to accomodate for what I actually want to accomplish from the code.
 
         // Edit later to accomodate for multiple players and enemies
-        // Get full system done by Saturday so it can be pretty on Tuesday.
         yield return dialogueBox.TypeDialogue($" {enemyUnit}  is ready for battle!");
         yield return new WaitForSeconds(1f);
 
@@ -63,7 +62,7 @@ public class Battlesystem : MonoBehaviour
         dialogueBox.EnableActionSelector(true);
     }
 
-    void PlayerMove()
+    public void PlayerMove()
     {
         state = BattleState.PLAYERMOVE;
         dialogueBox.EnableActionSelector(false);
